@@ -1,0 +1,67 @@
+{
+  "nqt.title": "NQT",
+  "nqt.options": "NotCoded's Quality Tweaks",
+
+  "nqt.keybinds.menu": "Open Config",
+
+  "text.autoconfig.nqt.title": "NotCoded's Quality Tweaks",
+
+  "text.autoconfig.nqt.option.isEnabled": "Enabled",
+  "text.autoconfig.nqt.option.isEnabled.@Tooltip": "This decides if the mod is enabled.",
+
+  "text.autoconfig.nqt.option.qol": "Quality of Life",
+  "text.autoconfig.nqt.option.performance": "Performance",
+  "text.autoconfig.nqt.option.fog": "Fog",
+  "text.autoconfig.nqt.option.fixes": "Bug fixes",
+
+  "text.autoconfig.nqt.option.optionsMenu": "Options Menu",
+  "text.autoconfig.nqt.option.optionsMenu.@Tooltip": "This decides if the button in the options menu is shown.",
+
+  "text.autoconfig.nqt.option.performance.noClientSideEntityCollisionChecks": "No client world entity collision checks",
+  "text.autoconfig.nqt.option.performance.noClientSideEntityCollisionChecks.@Tooltip": "Disables client world entity collision checks.",
+
+  "text.autoconfig.nqt.option.fixes.entityCrashFix": "Erroring Entity Crash Fix",
+  "text.autoconfig.nqt.option.fixes.entityCrashFix.@Tooltip": "Avoid crashing the game because of erroring entities. (USE AS A LAST RESORT!)",
+
+  "text.autoconfig.nqt.option.fixes.titleFix": "Title Fix",
+  "text.autoconfig.nqt.option.fixes.titleFix.@Tooltip": "Fixes titles going off-screen aka. making the title fit on screen at all times.",
+
+  "text.autoconfig.nqt.option.fixes.cursorCenteredFix": "Cursor Centered Fix",
+  "text.autoconfig.nqt.option.fixes.cursorCenteredFix.@Tooltip": "Fixes the cursor centering issue that occasionally happens when opening a GUI.",
+
+  "text.autoconfig.nqt.option.qol.dontClearChatHistory": "Don't clear chat history",
+  "text.autoconfig.nqt.option.qol.dontClearChatHistory.@Tooltip": "Doesn't clear chat history upon disconnecting from/connecting to a server",
+
+  "text.autoconfig.nqt.option.fog.disableAllFog": "Disable All Fog",
+  "text.autoconfig.nqt.option.fog.disableAllFog.@Tooltip": "Disables ALL fogs (overworld, nether, end, sky fog, terrain fog)",
+
+  "text.autoconfig.nqt.option.fog.disableSkyFog": "Disable Sky Fog",
+  "text.autoconfig.nqt.option.fog.disableSkyFog.@Tooltip": "Disables the Fog in the sky",
+
+  "text.autoconfig.nqt.option.fog.disableTerrainFog": "Disable Terrain Fog",
+  "text.autoconfig.nqt.option.fog.disableTerrainFog.@Tooltip": "Disables the Fog in the terrain.",
+
+  "text.autoconfig.nqt.option.fog.disableNetherFog": "Disable Nether Fog",
+  "text.autoconfig.nqt.option.fog.disableNetherFog.@Tooltip": "Disables Fog in the nether dimension.",
+
+  "text.autoconfig.nqt.option.fog.disableOverworldFog": "Disable Overworld Fog",
+  "text.autoconfig.nqt.option.fog.disableOverworldFog.@Tooltip": "Disables Fog in the overworld dimension.",
+
+  "text.autoconfig.nqt.option.fog.disableEndFog": "Disable End Fog",
+  "text.autoconfig.nqt.option.fog.disableEndFog.@Tooltip": "Disables Fog in the end dimension.",
+
+  "text.autoconfig.nqt.option.fixes.toolTipFix": "Tool Tip Fix",
+  "text.autoconfig.nqt.option.fixes.toolTipFix.@Tooltip": "Fixes Tool Tips going off-screen.",
+
+  "text.autoconfig.nqt.option.fixes.chatLagFix": "Chat Lag Fix",
+  "text.autoconfig.nqt.option.fixes.chatLagFix.@Tooltip": "Fixes the chat lag whenever checking if you blocked the player (basically disables it).",
+
+  "text.autoconfig.nqt.option.qol.fullBright": "Fullbright",
+  "text.autoconfig.nqt.option.qol.fullBright.@Tooltip": "Self-explanatory, basically infinite night vision.",
+
+  "text.autoconfig.nqt.option.qol.gamemodeSwitcherBypass": "Gamemode Switcher Bypass",
+  "text.autoconfig.nqt.option.qol.gamemodeSwitcherBypass.@Tooltip": "Allows you to use the gamemode switcher without needing to be op-ed.",
+
+  "text.autoconfig.nqt.option.qol.lowerCaseCommands": "Lower Case Commands",
+  "text.autoconfig.nqt.option.qol.lowerCaseCommands.@Tooltip": "Forces the first argument of any command to be lowercase. (/HI -> /hi)"
+}

@@ -1,0 +1,31 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.notcoded.nqt.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "global.WorldMixin"
+  ],
+  "client": [
+    "client.ScreenMixin",
+    "client.GameModeSelectionScreenMixin",
+    "client.KeyboardMixin",
+    "client.LightmapTextureManagerMixin",
+    "client.MinecraftClientMixin",
+    "client.OptionsScreenMixin",
+    "client.SocialInteractionsManagerMixin",
+    "client.InGameHudMixin",
+    "client.YggdrasilSocialInteractionsServiceMixin",
+    "client.fog.SkyPropertiesEndMixin",
+    "client.fog.SkyPropertiesNetherMixin",
+    "client.fog.SkyPropertiesOverworldMixin",
+    "client.TextFieldWidgetMixin",
+    "client.EntityMixin",
+    "client.ChatHudMixin",
+    "client.LivingEntityMixin",
+    "client.fog.BackgroundRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -29,7 +29,6 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
     @Final @Shadow private MinecraftClient client;
-    @Shadow private int titleTotalTicks;
     @Shadow private Text title;
     @Shadow private Text subtitle;
     @Shadow private int titleFadeInTicks;
@@ -42,6 +41,7 @@ public abstract class InGameHudMixin {
 
     @Shadow public abstract TextRenderer getTextRenderer();
 
+    @Shadow private int titleStayTicks;
     private Text titlec;
 
     private int scoreboardWidth = -1;
@@ -71,7 +71,7 @@ public abstract class InGameHudMixin {
     }
 
     private void collectRenderInfo() {
-        renderTitle = titlec != null && titleTotalTicks > 0;
+        renderTitle = titlec != null && titleStayTicks > 0;
         if (renderTitle) {
             TextRenderer textRenderer = getTextRenderer();
 
@@ -117,14 +117,14 @@ public abstract class InGameHudMixin {
 
             profiler.push("titleAndSubtitle");
 
-            float ticksLeft = (float)titleTotalTicks - tickDelta;
+            float ticksLeft = (float)titleStayTicks - tickDelta;
             int alpha = 255;
-            if (titleTotalTicks > titleFadeOutTicks + titleRemainTicks) {
+            if (titleStayTicks > titleFadeOutTicks + titleRemainTicks) {
                 float r = (float)(titleFadeInTicks + titleRemainTicks + titleFadeOutTicks) - ticksLeft;
                 alpha = (int)(r * 255.0F / titleFadeInTicks);
             }
 
-            if (titleTotalTicks <= titleFadeOutTicks) {
+            if (titleStayTicks <= titleFadeOutTicks) {
                 alpha = (int)(ticksLeft * 255.0F / titleFadeOutTicks);
             }
 

@@ -2,11 +2,10 @@ package net.notcoded.nqt.utils.fixes;
 
 /*
 - Tooltip Fix "borrowed" from
-- kyrptonaught | https://github.com/kyrptonaught/tooltipfix/blob/1.16/src/main/java/net/kyrptonaught/tooltipfix/mixin/FixToolTipMixin.java
+- kyrptonaught | https://github.com/kyrptonaught/tooltipfix/blob/1.18/src/main/java/net/kyrptonaught/tooltipfix/mixin/FixToolTipMixin.java
 */
 
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 
@@ -56,9 +55,9 @@ public class ToolTipFix {
                         if (!isTooWide(textRenderer, newLine + " " + words.get(0)))
                             newLine += " " + words.remove(0);
                         else break;
-                text.set(i, new LiteralText(newLine).setStyle(style));
+                text.set(i, Text.literal(newLine).setStyle(style));
                 if (words.size() > 0)
-                    text.add(i + 1, new LiteralText(String.join(" ", words)).setStyle(style));
+                    text.add(i + 1, Text.literal(String.join(" ", words)).setStyle(style));
             }
         }
         return text;

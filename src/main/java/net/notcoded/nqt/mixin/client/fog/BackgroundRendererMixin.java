@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BackgroundRenderer.class)
 public class BackgroundRendererMixin {
     @Inject(method = "applyFog", at = @At("RETURN"), cancellable = true)
-    private static void noFog(Camera camera, BackgroundRenderer.FogType fogType, float viewDistance, boolean thickFog, CallbackInfo ci) {
+    private static void noFog(Camera camera, BackgroundRenderer.FogType fogType, float viewDistance, boolean thickFog, float tickDelta, CallbackInfo ci) {
         if(NQT.clientModConfig.isEnabled && NQT.clientModConfig.fog.disableAllFog) ci.cancel();
 
         if(fogType.equals(BackgroundRenderer.FogType.FOG_SKY) && NQT.clientModConfig.isEnabled && (NQT.clientModConfig.fog.disableSkyFog || NQT.clientModConfig.fog.disableAllFog)) ci.cancel();

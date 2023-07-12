@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LightmapTextureManager.class)
 public class LightmapTextureManagerMixin {
     @Inject(method = "getBrightness", at = @At("HEAD"), cancellable = true)
-    private void changeBrightness(CallbackInfoReturnable<Float> cir) {
+    private static void changeBrightness(CallbackInfoReturnable<Float> cir) {
         if(NQT.clientModConfig.qol.fullBright && NQT.clientModConfig.isEnabled) {
             cir.setReturnValue(1.0F);
         }

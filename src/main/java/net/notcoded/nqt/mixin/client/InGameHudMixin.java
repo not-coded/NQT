@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 /*
  - Title Fix "borrowed" from:
- - TheGameratorT | https://github.com/TheGameratorT/McTitleFixer/blob/1.16.5/src/main/java/com/thegameratort/titlefixer/mixin/InGameHudMixin.java
+ - TheGameratorT | https://github.com/TheGameratorT/McTitleFixer/blob/1.17.1/src/main/java/com/thegameratort/titlefixer/mixin/InGameHudMixin.java
  */
 
 @Environment(EnvType.CLIENT)
@@ -38,8 +38,10 @@ public abstract class InGameHudMixin {
     @Shadow private int scaledWidth;
     @Shadow private int scaledHeight;
 
-    @Shadow public abstract TextRenderer getFontRenderer();
     @Shadow protected abstract void drawTextBackground(MatrixStack matrices, TextRenderer textRenderer, int yOffset, int width, int color);
+
+    @Shadow public abstract TextRenderer getTextRenderer();
+
     private Text titlec;
 
     private int scoreboardWidth = -1;
@@ -71,7 +73,7 @@ public abstract class InGameHudMixin {
     private void collectRenderInfo() {
         renderTitle = titlec != null && titleTotalTicks > 0;
         if (renderTitle) {
-            TextRenderer textRenderer = getFontRenderer();
+            TextRenderer textRenderer = getTextRenderer();
 
             int titleWidth = textRenderer.getWidth(titlec);
             collectTitleRenderInfo(titleRI, 4.0F, titleWidth);
@@ -111,7 +113,7 @@ public abstract class InGameHudMixin {
     private void executeRenderInfo(MatrixStack matrices, float tickDelta) {
         if (renderTitle) {
             Profiler profiler = client.getProfiler();
-            TextRenderer textRenderer = getFontRenderer();
+            TextRenderer textRenderer = getTextRenderer();
 
             profiler.push("titleAndSubtitle");
 

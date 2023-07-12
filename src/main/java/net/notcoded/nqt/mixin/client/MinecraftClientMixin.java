@@ -25,11 +25,11 @@ public abstract class MinecraftClientMixin {
     @Inject(at = @At("HEAD"), method = "tick")
     private void tick(CallbackInfo ci){
         while (NQT.keyBinding.wasPressed()) {
-            NQT.client.openScreen(AutoConfig.getConfigScreen(ClientModConfig.class, null).get());
+            NQT.client.setScreen(AutoConfig.getConfigScreen(ClientModConfig.class, null).get());
         }
     }
 
-    @Inject(method = "openScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Mouse;unlockCursor()V"))
+    @Inject(method = "setScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Mouse;unlockCursor()V"))
     public void setMouseMode(Screen screen, CallbackInfo ci) {
         if(!(screen instanceof HandledScreen || screen instanceof GameMenuScreen) || (!NQT.clientModConfig.isEnabled || !NQT.clientModConfig.fixes.cursorCenteredFix)) return;
 

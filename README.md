@@ -1,6 +1,6 @@
 # NotCoded's Quality (of life) Tweaks
 
-[![Fabric](https://raw.githubusercontent.com/intergrav/devins-badges/1a0c6742ac5929b4597b417a74a124a30cf3461f/assets/cozy/supported/fabric_vector.svg)](https://fabricmc.net/use/installer) [![Cloth Config API](https://raw.githubusercontent.com/intergrav/devins-badges/v3/assets/cozy/requires/cloth-config-api_vector.svg)](https://www.curseforge.com/minecraft/mc-mods/cloth-config) [![Minecraft](https://notcoded.needs.rest/r/badge_minecraft_1.16.x-1.19.x.svg)](https://minecraft.net)
+[![Fabric](https://raw.githubusercontent.com/intergrav/devins-badges/1a0c6742ac5929b4597b417a74a124a30cf3461f/assets/cozy/supported/fabric_vector.svg)](https://fabricmc.net/use/installer) [![Cloth Config API](https://raw.githubusercontent.com/intergrav/devins-badges/v3/assets/cozy/requires/cloth-config-api_vector.svg)](https://www.modrinth.com/mod/cloth-config) [![Minecraft](https://notcoded.needs.rest/r/badge_minecraft_1.16+.svg)](https://minecraft.net)
 
 This mod adds quality of life tweaks, performance tweaks and bug fixes, which you can toggle.
 

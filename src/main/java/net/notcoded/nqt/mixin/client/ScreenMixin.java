@@ -23,7 +23,7 @@ import java.util.List;
 
 /*
 - Tooltip Fix "borrowed" from
-- kyrptonaught | https://github.com/kyrptonaught/tooltipfix/blob/1.16/src/main/java/net/kyrptonaught/tooltipfix/mixin/FixToolTipMixin.java
+- kyrptonaught | https://github.com/kyrptonaught/tooltipfix/blob/1.17/src/main/java/net/kyrptonaught/tooltipfix/mixin/FixToolTipMixin.java
 */
 @Environment(EnvType.CLIENT)
 @Mixin(Screen.class)

@@ -4,7 +4,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.options.OptionsScreen;
+import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -26,7 +26,7 @@ public abstract class OptionsScreenMixin extends Screen {
     @Inject(at = @At("RETURN"), method = "init")
     private void addCustomButton(CallbackInfo ci) {
         if(NQT.clientModConfig.optionsMenu){
-            this.addButton(new ButtonWidget(this.width / 2 + 5, this.height / 6 + 144 - 6, 150, 20, new TranslatableText("nqt.options"), (buttonWidget) -> NQT.client.openScreen(AutoConfig.getConfigScreen(ClientModConfig.class, this).get())));
+            this.addDrawableChild(new ButtonWidget(this.width / 2 + 5, this.height / 6 + 144 - 6, 150, 20, new TranslatableText("nqt.options"), (buttonWidget) -> NQT.client.setScreen(AutoConfig.getConfigScreen(ClientModConfig.class, this).get())));
         }
     }
 }

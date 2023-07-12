@@ -27,7 +27,7 @@ public class WorldMixin {
         } catch (Throwable throwable) {
             if((NQT.type == EnvType.CLIENT && NQT.clientModConfig.isEnabled && NQT.clientModConfig.fixes.entityCrashFix) || NQT.type == EnvType.SERVER && NQT.serverModConfig.isEnabled && NQT.serverModConfig.fixes.entityCrashFix){
                 try {
-                    entity.remove();
+                    entity.remove(Entity.RemovalReason.DISCARDED);
                 } catch(Exception e) {
                     EntityCrashFix.createCrashReport(throwable, entity);
                 }

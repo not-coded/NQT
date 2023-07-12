@@ -15,7 +15,7 @@
   },
 
   "license": "GPL-3.0",
-  "icon": "assets/NQT/icon.png",
+  "icon": "assets/nqt/icon.png",
 
   "environment": "*",
   "entrypoints": {

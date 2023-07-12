@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 /*
  - Title Fix "borrowed" from:
- - TheGameratorT | https://github.com/TheGameratorT/McTitleFixer/blob/1.17.1/src/main/java/com/thegameratort/titlefixer/mixin/InGameHudMixin.java
+ - TheGameratorT | https://github.com/TheGameratorT/McTitleFixer/blob/1.18/src/main/java/com/thegameratort/titlefixer/mixin/InGameHudMixin.java
  */
 
 @Environment(EnvType.CLIENT)

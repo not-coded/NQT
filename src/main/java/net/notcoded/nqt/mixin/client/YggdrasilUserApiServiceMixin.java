@@ -1,9 +1,8 @@
 package net.notcoded.nqt.mixin.client;
 
 import com.mojang.authlib.exceptions.MinecraftClientException;
-import com.mojang.authlib.minecraft.SocialInteractionsService;
 import com.mojang.authlib.minecraft.client.MinecraftClient;
-import com.mojang.authlib.yggdrasil.YggdrasilSocialInteractionsService;
+import com.mojang.authlib.yggdrasil.YggdrasilUserApiService;
 import com.mojang.authlib.yggdrasil.response.BlockListResponse;
 import net.notcoded.nqt.NQT;
 import org.spongepowered.asm.mixin.Final;
@@ -11,7 +10,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.net.URL;
@@ -21,11 +19,11 @@ import java.util.concurrent.CompletableFuture;
 
 /*
 - Chat Lag Fix "borrowed" from:
-- Crec0 | https://github.com/adryd325/chat-lag-fix/blob/1.17/src/main/java/com/adryd/chatlagfix/mixin/MixinYggdrasilSocialInteractionsService_chatLagFix.java
+- Crec0 | https://github.com/adryd325/chat-lag-fix/blob/1.18/src/main/java/com/adryd/chatlagfix/mixin/MixinYggdrasilUserApiService_chatLagFix.java
 */
 
-@Mixin(value = YggdrasilSocialInteractionsService.class, remap = false)
-public abstract class YggdrasilSocialInteractionsServiceMixin implements SocialInteractionsService {
+@Mixin(value = YggdrasilUserApiService.class, remap = false)
+public abstract class YggdrasilUserApiServiceMixin  {
     @Final
     @Shadow
     private URL routeBlocklist;

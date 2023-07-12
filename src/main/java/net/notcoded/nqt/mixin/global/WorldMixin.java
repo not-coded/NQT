@@ -25,7 +25,7 @@ public class WorldMixin {
         try {
             tickConsumer.accept(entity);
         } catch (Throwable throwable) {
-            if((NQT.type == EnvType.CLIENT && NQT.clientModConfig.isEnabled && NQT.clientModConfig.fixes.entityCrashFix) || NQT.type == EnvType.SERVER && NQT.serverModConfig.isEnabled && NQT.serverModConfig.fixes.entityCrashFix){
+            if((NQT.type == EnvType.CLIENT && NQT.clientModConfig.isEnabled && NQT.clientModConfig.fixes.entityCrashFix) || (NQT.type == EnvType.SERVER && NQT.serverModConfig.isEnabled && NQT.serverModConfig.fixes.entityCrashFix)){
                 try {
                     entity.remove(Entity.RemovalReason.DISCARDED);
                 } catch(Exception e) {

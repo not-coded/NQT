@@ -15,7 +15,7 @@
     "client.OptionsScreenMixin",
     "client.SocialInteractionsManagerMixin",
     "client.InGameHudMixin",
-    "client.YggdrasilSocialInteractionsServiceMixin",
+    "client.YggdrasilUserApiServiceMixin",
     "client.fog.SkyPropertiesEndMixin",
     "client.fog.SkyPropertiesNetherMixin",
     "client.fog.SkyPropertiesOverworldMixin",

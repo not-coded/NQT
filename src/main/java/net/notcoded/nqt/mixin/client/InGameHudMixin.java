@@ -5,6 +5,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -12,9 +13,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.profiler.Profiler;
 import net.notcoded.nqt.NQT;
 import net.notcoded.nqt.utils.fixes.TitleRenderInfo;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
@@ -29,30 +32,37 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
     @Final @Shadow private MinecraftClient client;
-    @Shadow private Text title;
-    @Shadow private Text subtitle;
     @Shadow private int titleFadeInTicks;
     @Shadow private int titleRemainTicks;
     @Shadow private int titleFadeOutTicks;
     @Shadow private int scaledWidth;
     @Shadow private int scaledHeight;
-
-    @Shadow protected abstract void drawTextBackground(MatrixStack matrices, TextRenderer textRenderer, int yOffset, int width, int color);
-
     @Shadow public abstract TextRenderer getTextRenderer();
 
     @Shadow private int titleStayTicks;
+
+    @Shadow protected abstract void drawTextBackground(DrawContext context, TextRenderer textRenderer, int yOffset, int width, int color);
+
+    @Shadow private @Nullable Text subtitle;
+    @Shadow private @Nullable Text title;
+    @Unique
     private Text titlec;
 
+    @Unique
     private int scoreboardWidth = -1;
+    @Unique
     private int scoreboardOpacityGain = 0;
 
+    @Unique
     public boolean renderTitle = false;
+    @Unique
     public boolean hideScoreboard = false;
+    @Unique
     public final TitleRenderInfo titleRI = new TitleRenderInfo();
+    @Unique
     public final TitleRenderInfo subtitleRI = new TitleRenderInfo();
 
-    @Inject(method = "render(Lnet/minecraft/client/util/math/MatrixStack;F)V", at = @At("HEAD"))
+    @Inject(method = "render(Lnet/minecraft/client/gui/DrawContext;F)V", at = @At("HEAD"))
     private void preRenderHud(CallbackInfo ci) {
         scoreboardWidth = -1; // reset variable
         hideScoreboard = false; // reset variable
@@ -60,16 +70,17 @@ public abstract class InGameHudMixin {
         title = null; // prevent operation of the original title code
     }
 
-    @Inject(method = "render(Lnet/minecraft/client/util/math/MatrixStack;F)V", at = @At("TAIL"))
-    private void postRenderHud(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
+    @Inject(method = "render(Lnet/minecraft/client/gui/DrawContext;F)V", at = @At("TAIL"))
+    private void postRenderHud(DrawContext context, float tickDelta, CallbackInfo ci) {
         /* Calculate title stuff */
         collectRenderInfo();
         /* Render the title */
-        executeRenderInfo(matrices, tickDelta);
+        executeRenderInfo(context, tickDelta);
 
         title = titlec; // restore the title
     }
 
+    @Unique
     private void collectRenderInfo() {
         renderTitle = titlec != null && titleStayTicks > 0;
         if (renderTitle) {
@@ -85,6 +96,7 @@ public abstract class InGameHudMixin {
         }
     }
 
+    @Unique
     private void collectTitleRenderInfo(TitleRenderInfo ri, float titleScale, int titleWidth) {
         float renderScale = titleScale;
         int renderAreaWidth = scaledWidth - 8 - 8;
@@ -110,7 +122,8 @@ public abstract class InGameHudMixin {
         ri.scale = renderScale;
     }
 
-    private void executeRenderInfo(MatrixStack matrices, float tickDelta) {
+    @Unique
+    private void executeRenderInfo(DrawContext context, float tickDelta) {
         if (renderTitle) {
             Profiler profiler = client.getProfiler();
             TextRenderer textRenderer = getTextRenderer();
@@ -124,35 +137,35 @@ public abstract class InGameHudMixin {
                 alpha = (int)(r * 255.0F / titleFadeInTicks);
             }
 
-            if (titleStayTicks <= titleFadeOutTicks) {
+            if (titleRemainTicks <= titleFadeOutTicks) {
                 alpha = (int)(ticksLeft * 255.0F / titleFadeOutTicks);
             }
 
             alpha = MathHelper.clamp(alpha, 0, 255);
             if (alpha > 8) {
-                matrices.push();
-                matrices.translate(titleRI.posX, titleRI.posY, 0.0F);
+                context.getMatrices().push();
+                context.getMatrices().translate(titleRI.posX, titleRI.posY, 0.0F);
                 RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-                matrices.push();
-                matrices.scale(titleRI.scale, titleRI.scale, 1.0F);
-                int titleColor = alpha << 24 & -0x1000000;
+                //RenderSystem.defaultBlendFunc();
+                context.getMatrices().push();
+                // context.getMatrices().scale(4.0F, 4.0F, 4.0F);
+                context.getMatrices().scale(titleRI.scale, titleRI.scale, 1.0F);
+                //int titleColor = alpha << 24 & -0x1000000;
+                int titleColor = alpha << 24 & 16777216;
                 int titleWidth = textRenderer.getWidth(titlec);
-                drawTextBackground(matrices, textRenderer, -10, titleWidth, 0xFFFFFF | titleColor);
-                textRenderer.drawWithShadow(matrices, titlec, (float)(-titleWidth / 2), -10.0F, 0xFFFFFF | titleColor);
-                matrices.pop();
-
+                drawTextBackground(context, textRenderer, -10, titleWidth, 16777215 | titleColor);
+                context.drawTextWithShadow(textRenderer, titlec, -titleWidth / 2, -10, 16777215 | titleColor);
+                context.getMatrices().pop();
                 if (subtitle != null) {
-                    matrices.push();
-                    matrices.scale(subtitleRI.scale, subtitleRI.scale, 1.0F);
+                    context.getMatrices().push();
+                    context.getMatrices().scale(subtitleRI.scale, subtitleRI.scale, 1.0F);
                     int subtitleWidth = textRenderer.getWidth(subtitle);
-                    drawTextBackground(matrices, textRenderer, 5, subtitleWidth, 0xFFFFFF | titleColor);
-                    textRenderer.drawWithShadow(matrices, subtitle, (float)(-subtitleWidth / 2), 5.0F, 0xFFFFFF | titleColor);
-                    matrices.pop();
+                    drawTextBackground(context, textRenderer, 5, subtitleWidth, 16777215 | titleColor);
+                    context.drawTextWithShadow(textRenderer, subtitle, -subtitleWidth / 2, 5, 16777215 | titleColor);
+                    context.getMatrices().pop();
                 }
-
                 RenderSystem.disableBlend();
-                matrices.pop();
+                context.getMatrices().pop();
             }
 
             profiler.pop();
@@ -180,10 +193,10 @@ public abstract class InGameHudMixin {
     }
 
     @ModifyArgs(
-            method = "renderScoreboardSidebar(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/scoreboard/ScoreboardObjective;)V",
+            method = "renderScoreboardSidebar(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/scoreboard/ScoreboardObjective;)V",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/hud/InGameHud;fill(Lnet/minecraft/client/util/math/MatrixStack;IIIII)V"
+                    target = "Lnet/minecraft/client/gui/DrawContext;fill(IIIII)V"
             )
     )
     private void renderScoreboardSidebar_hook1(Args args) {
@@ -197,37 +210,38 @@ public abstract class InGameHudMixin {
     }
 
     @Redirect(
-            method = "renderScoreboardSidebar(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/scoreboard/ScoreboardObjective;)V",
+            method = "renderScoreboardSidebar(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/scoreboard/ScoreboardObjective;)V",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I"
+                    target = "Lnet/minecraft/client/gui/DrawContext;drawText(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;IIIZ)I"
             )
     )
-    private int renderScoreboardSidebar_hook2(TextRenderer textRenderer, MatrixStack matrices, Text text, float x, float y, int color) {
+    private int renderScoreboardSidebar_hook2(DrawContext instance, TextRenderer textRenderer, Text text, int x, int y, int color, boolean shadow) {
         int newColor = getNewScoreboardColor(color);
         int alpha = newColor >>> 24;
         if (alpha <= 8) {
             return 0;
         }
-        return textRenderer.draw(matrices, text, x, y, newColor);
+        return instance.drawText(textRenderer, text, x, y, newColor, shadow);
     }
 
     @Redirect(
-            method = "renderScoreboardSidebar(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/scoreboard/ScoreboardObjective;)V",
+            method = "renderScoreboardSidebar(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/scoreboard/ScoreboardObjective;)V",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Ljava/lang/String;FFI)I"
+                    target = "Lnet/minecraft/client/gui/DrawContext;drawText(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;IIIZ)I"
             )
     )
-    private int renderScoreboardSidebar_hook3(TextRenderer textRenderer, MatrixStack matrices, String text, float x, float y, int color) {
+    private int renderScoreboardSidebar_hook3(DrawContext instance, TextRenderer textRenderer, String text, int x, int y, int color, boolean shadow) {
         int newColor = getNewScoreboardColor(color);
         int alpha = newColor >>> 24;
         if (alpha <= 8) {
             return 0;
         }
-        return textRenderer.draw(matrices, text, x, y, newColor);
+        return instance.drawText(textRenderer, text, x, y, newColor, shadow);
     }
 
+    @Unique
     private int getNewScoreboardColor(int color) {
         int alpha = color >>> 24;
         alpha += scoreboardOpacityGain;

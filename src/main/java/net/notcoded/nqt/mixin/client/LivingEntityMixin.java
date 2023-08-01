@@ -23,21 +23,21 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "isInsideWall", at = @At("HEAD"), cancellable = true)
     private void noClientCheck(CallbackInfoReturnable<Boolean> cir) {
-        if(this.world.isClient && (NQT.clientModConfig.isEnabled && NQT.clientModConfig.performance.noClientSideEntityCollisionChecks)) {
+        if(this.getWorld().isClient && (NQT.clientModConfig.isEnabled && NQT.clientModConfig.performance.noClientSideEntityCollisionChecks)) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "pushAway", at = @At("HEAD"), cancellable = true)
     private void noPushEntitiesClient(CallbackInfo ci) {
-        if (this.world.isClient && (NQT.clientModConfig.isEnabled && NQT.clientModConfig.performance.noClientSideEntityCollisionChecks)) {
+        if (this.getWorld().isClient && (NQT.clientModConfig.isEnabled && NQT.clientModConfig.performance.noClientSideEntityCollisionChecks)) {
             ci.cancel();
         }
     }
 
     @Inject(method = "pushAwayFrom", at = @At("HEAD"), cancellable = true)
     private void noPushEntitiesFromClient(CallbackInfo ci) {
-        if (this.world.isClient && (NQT.clientModConfig.isEnabled && NQT.clientModConfig.performance.noClientSideEntityCollisionChecks)) {
+        if (this.getWorld().isClient && (NQT.clientModConfig.isEnabled && NQT.clientModConfig.performance.noClientSideEntityCollisionChecks)) {
             ci.cancel();
         }
     }

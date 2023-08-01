@@ -15,7 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public class EntityMixin {
 
-    @Shadow public World world;
+    @Shadow
+    private World world;
 
     @Inject(method = "isInsideWall", at = @At("HEAD"), cancellable = true)
     private void noClientCheck(CallbackInfoReturnable<Boolean> cir) {

@@ -15,16 +15,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.awt.*;
-import java.util.function.Supplier;
-
 @Mixin(OptionsScreen.class)
 @Environment(EnvType.CLIENT)
 public abstract class OptionsScreenMixin extends Screen {
 
     /*
     - Tweaked the code a bit, from:
-    - RizeCookey | https://github.com/rizecookey/CookeyMod/blob/1.19.4/src/main/java/net/rizecookey/cookeymod/mixin/client/OptionsScreenMixin.java
+    - RizeCookey | https://github.com/rizecookey/CookeyMod/blob/1.20/src/main/java/net/rizecookey/cookeymod/mixin/client/OptionsScreenMixin.java
     */
     protected OptionsScreenMixin(Text title) {
         super(title);

@@ -7,12 +7,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.profiler.Profiler;
 import net.notcoded.nqt.NQT;
-import net.notcoded.nqt.utils.fixes.TitleRenderInfo;
+import net.notcoded.nqt.utils.fixes.titlefix.TitleFix;
+import net.notcoded.nqt.utils.fixes.titlefix.TitleRenderInfo;
+import net.notcoded.nqt.utils.fixes.tooltipfix.ToolTipFix;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -64,6 +65,7 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "render(Lnet/minecraft/client/gui/DrawContext;F)V", at = @At("HEAD"))
     private void preRenderHud(CallbackInfo ci) {
+        if(!TitleFix.canRun()) return;
         scoreboardWidth = -1; // reset variable
         hideScoreboard = false; // reset variable
         titlec = title; // keep a reference for the title
@@ -72,6 +74,7 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "render(Lnet/minecraft/client/gui/DrawContext;F)V", at = @At("TAIL"))
     private void postRenderHud(DrawContext context, float tickDelta, CallbackInfo ci) {
+        if(!TitleFix.canRun()) return;
         /* Calculate title stuff */
         collectRenderInfo();
         /* Render the title */
@@ -107,11 +110,10 @@ public abstract class InGameHudMixin {
         int renderTextWidth = (int)(renderScale * titleWidth);
         if (renderTextWidth > renderAreaWidthSB) {
             hideScoreboard = true;
-            if (NQT.clientModConfig.isEnabled && NQT.clientModConfig.fixes.titleFix) {
-                if (renderTextWidth > renderAreaWidth) {
-                    renderScale = (float)renderAreaWidth / titleWidth;
-                }
+            if (renderTextWidth > renderAreaWidth) {
+                renderScale = (float) renderAreaWidth / titleWidth;
             }
+
         }
 
         float titlePosX = (float)scaledWidth / 2;
@@ -174,6 +176,7 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "tick()V", at = @At("HEAD"))
     void tick_hook(CallbackInfo ci) {
+        if(!TitleFix.canRun()) return;
         if (hideScoreboard) {
             if (scoreboardOpacityGain > -255) {
                 scoreboardOpacityGain -= 13;
@@ -200,6 +203,7 @@ public abstract class InGameHudMixin {
             )
     )
     private void renderScoreboardSidebar_hook1(Args args) {
+        if(!TitleFix.canRun()) return;
         if (scoreboardWidth == -1) {
             int x1 = args.get(1);
             int x2 = args.get(3);
@@ -217,6 +221,7 @@ public abstract class InGameHudMixin {
             )
     )
     private int renderScoreboardSidebar_hook2(DrawContext instance, TextRenderer textRenderer, Text text, int x, int y, int color, boolean shadow) {
+        if(!TitleFix.canRun()) return instance.drawText(textRenderer, text, x, y, color, shadow);
         int newColor = getNewScoreboardColor(color);
         int alpha = newColor >>> 24;
         if (alpha <= 8) {
@@ -233,6 +238,7 @@ public abstract class InGameHudMixin {
             )
     )
     private int renderScoreboardSidebar_hook3(DrawContext instance, TextRenderer textRenderer, String text, int x, int y, int color, boolean shadow) {
+        if(!TitleFix.canRun()) return instance.drawText(textRenderer, text, x, y, color, shadow);
         int newColor = getNewScoreboardColor(color);
         int alpha = newColor >>> 24;
         if (alpha <= 8) {

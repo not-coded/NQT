@@ -1,4 +1,4 @@
-package net.notcoded.nqt.utils.fixes;
+package net.notcoded.nqt.utils.fixes.titlefix;
 
 /*
 - "borrowed" from:

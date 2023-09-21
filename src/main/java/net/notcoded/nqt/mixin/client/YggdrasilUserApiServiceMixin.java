@@ -47,7 +47,8 @@ public abstract class YggdrasilUserApiServiceMixin  {
         CompletableFuture.runAsync(() -> {
             try {
                 final BlockListResponse response = minecraftClient.get(routeBlocklist, BlockListResponse.class);
-                this.blockList = response.getBlockedProfiles();
+
+                this.blockList = response.blockedProfiles();
             } catch (final MinecraftClientException ignored) {
                 this.blockList = Set.of(new UUID(0, 0));
             }

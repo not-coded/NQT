@@ -25,6 +25,6 @@ public class TitleFix {
             }
         }
 
-        return NQT.clientModConfig.isEnabled && NQT.clientModConfig.fixes.titleFix && hasIncompatibleMods;
+        return NQT.clientModConfig.isEnabled && NQT.clientModConfig.fixes.titleFix && !hasIncompatibleMods;
     }
 }
